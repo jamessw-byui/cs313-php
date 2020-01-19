@@ -25,7 +25,7 @@
                 Test Engineer.
             </p>
         </div> <!-- end of bio --> 
-        <img src="IMG_2575.JPG" alt="Jim and His Wife" width="100" height="100">
+        <img src="IMG_2575.JPG" alt="Jim and Wife" width="100" height="100">
         <div>
             <p>
                 <?php
