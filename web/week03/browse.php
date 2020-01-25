@@ -1,14 +1,13 @@
 <?php
 // Start the session
 session_start();
-$_SESSION['cart']=array();
-array_push($_SESSION['cart'],array('product'=>'12Tribes','quantity'=>1));
-$_SESSION["12Tribes"]=0;
-$_SESSION["AskSeek"]=0;
-$_SESSION["BoM"]=0;
-$_SESSION["LackWisdom"]=0;
-$_SESSION["LivingChrist"]=0;
-$_SESSION["Trust"]=0;
+$_SESSION['cart']=array();;
+// $_SESSION["12Tribes"]=0;
+// $_SESSION["AskSeek"]=0;
+// $_SESSION["BoM"]=0;
+// $_SESSION["LackWisdom"]=0;
+// $_SESSION["LivingChrist"]=0;
+// $_SESSION["Trust"]=0;
 ?>
 <!DOCTYPE html>
 <html>
@@ -31,27 +30,27 @@ $_SESSION["Trust"]=0;
     <div class="main">
         <div class="song">
             <img src="12Tribes.png" alt="12TribesSong">
-            <button type="button" id="12Tribes" onclick="array_push($_SESSION['cart'],array(array('product'=>'12Tribes','quantity'=>1)));">Add to Cart</button>
+            <button type="button" id="12Tribes" onclick="array_push($_SESSION['cart'],array('product'=>'12Tribes','quantity'=>1));">Add to Cart</button>
         </div> 
         <div class="song">
             <img src="AskSeek.png" alt="AskSeekSong">
-            <button type="button" id="AskSeek">Add to Cart</button>
+            <button type="button" id="AskSeek" onclick="array_push($_SESSION['cart'],array('product'=>'AskSeek','quantity'=>1));">Add to Cart</button>
         </div> 
         <div class="song">
             <img src="BoM.png" alt="BookOfMormonSong">
-            <button type="button" id="BoM">Add to Cart</button>
+            <button type="button" id="BoM" onclick="array_push($_SESSION['cart'],array('product'=>'BoM','quantity'=>1));">Add to Cart</button>
         </div> 
         <div class="song">
             <img src="LackWisdom.png" alt="LackWisdomSong">
-            <button type="button" id="LackWisdom">Add to Cart</button>
+            <button type="button" id="LackWisdom" onclick="array_push($_SESSION['cart'],array('product'=>'LackWisdom','quantity'=>1));">Add to Cart</button>
         </div> 
         <div class="song">
             <img src="LivingChrist.png" alt="LivingChristSong">
-            <button type="button" id="LivingChrist">Add to Cart</button>
+            <button type="button" id="LivingChrist" onclick="array_push($_SESSION['cart'],array('product'=>'LivingChrist','quantity'=>1));">Add to Cart</button>
         </div> 
         <div class="song">
             <img src="Trust.png" alt="TrustSong">
-            <button type="button" id="Trust">Add to Cart</button>
+            <button type="button" id="Trust" onclick="array_push($_SESSION['cart'],array('product'=>'Trust','quantity'=>1));">Add to Cart</button>
         </div>
     </div> <!-- end of main -->
     <?php
