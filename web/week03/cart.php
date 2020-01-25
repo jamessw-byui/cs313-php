@@ -1,18 +1,18 @@
 <!DOCTYPE html>
 <html>
 <head>
-    <link rel="stylesheet" type="text/css" href="week02.css">
-    <title>Jim White's Landing Page</title>
+    <link rel="stylesheet" type="text/css" href="week03.css">
+    <title>Aimee White's Music</title>
 </head>
 <body>
     <div id="header">
-        <h1>Jim White's Landing Page</h1>
+        <h1>Aimee White's Music</h1>
         <div id="nav">
             <span class="page">
-                <a href="main.php">Home</a>
+                <a href="main.php">Browse Music</a>
             </span>
             <span class="page">
-                <a href="assignments.html">CS 213 Assignments</a>
+                <a href="assignments.html">Cart</a>
             </span>
         </div> <!-- nav -->
     </div> <!-- end of header -->
