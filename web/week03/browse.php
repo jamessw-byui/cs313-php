@@ -1,8 +1,13 @@
 <?php
 // Start the session
 session_start();
-$_SESSION[cart]=array();
-array_push($SESSION[cart],array(array('product'=>'12Tribes','quantity'=>1)));
+array_push($_SESSION['cart'],array(array('product'=>'12Tribes','quantity'=>1)));
+$_SESSION["12Tribes"]=0;
+$_SESSION["AskSeek"]=0;
+$_SESSION["BoM"]=0;
+$_SESSION["LackWisdom"]=0;
+$_SESSION["LivingChrist"]=0;
+$_SESSION["Trust"]=0;
 ?>
 <!DOCTYPE html>
 <html>
@@ -25,7 +30,7 @@ array_push($SESSION[cart],array(array('product'=>'12Tribes','quantity'=>1)));
     <div class="main">
         <div class="song">
             <img src="12Tribes.png" alt="12TribesSong">
-            <button type="button" id="12Tribes" onclick="array_push($_SESSION[cart],array(array('product'=>'12Tribes','quantity'=>1));">Add to Cart</button>
+            <button type="button" id="12Tribes" onclick="array_push($_SESSION['cart'],array(array('product'=>'12Tribes','quantity'=>1)));">Add to Cart</button>
         </div> 
         <div class="song">
             <img src="AskSeek.png" alt="AskSeekSong">
