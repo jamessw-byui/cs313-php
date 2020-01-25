@@ -1,7 +1,7 @@
 <?php
 // Start the session
 session_start();
-
+$_SESSION[cart]=array();
 ?>
 <!DOCTYPE html>
 <html>
@@ -24,7 +24,7 @@ session_start();
     <div class="main">
         <div class="song">
             <img src="12Tribes.png" alt="12TribesSong">
-            <button type="button" id="12Tribes">Add to Cart</button>
+            <button type="button" id="12Tribes" onclick="array_push($_SESSION[cart],array(array('product'=>'12Tribes','quantity'=>1));">Add to Cart</button>
         </div> 
         <div class="song">
             <img src="AskSeek.png" alt="AskSeekSong">
@@ -47,5 +47,15 @@ session_start();
             <button type="button" id="Trust">Add to Cart</button>
         </div>
     </div> <!-- end of main -->
+    <?php
+        $max=sizeof($_SESSION['cart']);
+        for($i=0; $i<$max; $i++) { 
+
+        while (list ($key, $val) = each ($_SESSION['cart'][$i])) { 
+        echo "$key -> $val ,"; 
+        } // inner array while loop
+        echo "<br>";
+        } // outer array for loop
+    ?>
 </body>
 </html>

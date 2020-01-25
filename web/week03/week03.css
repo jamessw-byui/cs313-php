@@ -54,7 +54,12 @@ div img {
     height: 350px;
 }
 
-div button {
+.song {
+    position: relative;
+    height: 100%;
+}
+
+.song button {
     position: absolute;
     top: 50%;
 }
