@@ -52,6 +52,9 @@ $_SESSION['cart']=array();
             <img src="Trust.png" alt="TrustSong">
             <button type="button" id="Trust" onclick="<?php array_push($_SESSION['cart'],array('product'=>'Trust','quantity'=>1)); ?>">Add to Cart</button>
         </div>
+        <div>
+            <button type="button" id="Destroy" onclick="<?php session_unset(); session_destroy(); ?>">Destroy</button>
+            <button type="button" id="Start" onclick="<?php session_start(); $_SESSION['cart']=array(); ?>">Start</button> 
     </div> <!-- end of main -->
     <?php
         echo "beginning PHP";
