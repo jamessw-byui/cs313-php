@@ -2,6 +2,7 @@
 // Start the session
 session_start();
 $_SESSION[cart]=array();
+array_push($SESSION[cart],array(array('product'=>'12Tribes','quantity'=>1)));
 ?>
 <!DOCTYPE html>
 <html>
