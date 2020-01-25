@@ -60,7 +60,7 @@ $_SESSION["Trust"]=0;
         echo "$max";
         for($i=0; $i<$max; $i++) { 
 
-        while (list ($product, $quantity) = each ($_SESSION['cart'][$i])) { 
+        while (list ($key, $val) = each ($_SESSION['cart'][$i])) { 
         echo "$key -> $val ,"; 
         } // inner array while loop
         echo "<br>";
