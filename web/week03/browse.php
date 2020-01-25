@@ -24,7 +24,7 @@ $_SESSION[cart]=array();
     <div class="main">
         <div class="song">
             <img src="12Tribes.png" alt="12TribesSong">
-            <button type="button" id="12Tribes" onclick="array_push($_SESSION[cart],array(array('product'=>'12Tribes','quantity'=>1));">Add to Cart</button>
+            <button type="button" id="12Tribes" onclick="array_push($_SESSION[cart],array('product'=>'12Tribes','quantity'=>1);">Add to Cart</button>
         </div> 
         <div class="song">
             <img src="AskSeek.png" alt="AskSeekSong">
