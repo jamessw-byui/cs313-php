@@ -2,7 +2,7 @@
 // Start the session
 session_start();
 $_SESSION['cart']=array();
-array_push($_SESSION['cart'],array(array('product'=>'12Tribes','quantity'=>1)));
+array_push($_SESSION['cart'],array('product'=>'12Tribes','quantity'=>1));
 $_SESSION["12Tribes"]=0;
 $_SESSION["AskSeek"]=0;
 $_SESSION["BoM"]=0;
