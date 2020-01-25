@@ -55,18 +55,10 @@ $_SESSION['cart']=array();
         <div>
             <button type="button" id="Destroy" onclick="<?php session_unset(); session_destroy(); ?>">Destroy</button>
             <button type="button" id="Start" onclick="<?php session_start(); $_SESSION['cart']=array(); ?>">Start</button> 
+        </div>
     </div> <!-- end of main -->
     <?php
-        echo "beginning PHP";
-        $max=sizeof($_SESSION['cart']);
-        echo "$max";
-        for($i=0; $i<$max; $i++) { 
-
-        while (list ($key, $val) = each ($_SESSION['cart'][$i])) { 
-        echo "$key -> $val ,"; 
-        } // inner array while loop
-        echo "<br>";
-        } // outer array for loop
+        print_r($_SESSION);
     ?>
 </body>
 </html>
