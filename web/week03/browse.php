@@ -51,6 +51,7 @@ array_push($SESSION[cart],array(array('product'=>'12Tribes','quantity'=>1)));
     <?php
         echo "beginning PHP";
         $max=sizeof($_SESSION['cart']);
+        echo "$max";
         for($i=0; $i<$max; $i++) { 
 
         while (list ($product, $quantity) = each ($_SESSION['cart'][$i])) { 
