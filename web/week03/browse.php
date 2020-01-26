@@ -57,8 +57,6 @@ $_SESSION['12Tribes']=0;
             <button type="button" id="Trust" onclick="addToCart('Trust')">Add to Cart</button>
         </div>
         <div>
-            <!-- <button type="button" id="Destroy" onclick="<?php session_unset(); session_destroy(); ?>">Destroy</button>
-            <button type="button" id="Start" onclick="<?php session_start(); $_SESSION['cart']=array(); ?>">Start</button> -->
         </div>
     </div> <!-- end of main -->
     <?php
