@@ -1,7 +1,7 @@
 <?php
 // Start the session
 session_start();
-if(isset($_SESSION['done'])){    
+if(!isset($_SESSION['done'])){    
     $_SESSION['done'] = 'done';    
     include('createCart.php'); 
 ?>
