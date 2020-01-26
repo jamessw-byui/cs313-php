@@ -1,7 +1,7 @@
 <?php
 // Start the session
 session_start();
-$_SESSION['cart']=array();
+require_once('createCart.php');
 // $_SESSION["12Tribes"]=0;
 // $_SESSION["AskSeek"]=0;
 // $_SESSION["BoM"]=0;
