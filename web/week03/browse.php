@@ -1,15 +1,7 @@
 <?php
 // Start the session
 session_start();
-if(!isset($_SESSION['cart'])) {
-    $_SESSION['cart'] = array();
-}
-$_SESSION['12Tribes']=0;
-// $_SESSION["AskSeek"]=0;
-// $_SESSION["BoM"]=0;
-// $_SESSION["LackWisdom"]=0;
-// $_SESSION["LivingChrist"]=0;
-// $_SESSION["Trust"]=0;
+require_once('createCart.php');
 ?>
 <!DOCTYPE html>
 <html>
