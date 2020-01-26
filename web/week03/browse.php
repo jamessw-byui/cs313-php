@@ -13,6 +13,8 @@ $_SESSION['cart']=array();
 <html>
 <head>
     <link rel="stylesheet" type="text/css" href="week03.css">
+    <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+    <script type="text/javascript" src="week03.js"></script>
     <title>Aimee White's Music</title>
 </head>
 <body>
@@ -30,27 +32,27 @@ $_SESSION['cart']=array();
     <div class="main">
         <div class="song">
             <img src="12Tribes.png" alt="12TribesSong">
-            <button type="button" id="12Tribes" onclick="">Add to Cart</button>
+            <button type="button" id="12Tribes" onclick="addToCart('12Tribes')">Add to Cart</button>
         </div> 
         <div class="song">
             <img src="AskSeek.png" alt="AskSeekSong">
-            <button type="button" id="AskSeek" onclick="">Add to Cart</button>
+            <button type="button" id="AskSeek" onclick="addToCart('AskSeek')">Add to Cart</button>
         </div> 
         <div class="song">
             <img src="BoM.png" alt="BookOfMormonSong">
-            <button type="button" id="BoM" onclick="">Add to Cart</button>
+            <button type="button" id="BoM" onclick="addToCart('BoM')">Add to Cart</button>
         </div> 
         <div class="song">
             <img src="LackWisdom.png" alt="LackWisdomSong">
-            <button type="button" id="LackWisdom" onclick="">Add to Cart</button>
+            <button type="button" id="LackWisdom" onclick="addToCart('LackWisdom')">Add to Cart</button>
         </div> 
         <div class="song">
             <img src="LivingChrist.png" alt="LivingChristSong">
-            <button type="button" id="LivingChrist" onclick="">Add to Cart</button>
+            <button type="button" id="LivingChrist" onclick="addToCart('LivingChrist')">Add to Cart</button>
         </div> 
         <div class="song">
             <img src="Trust.png" alt="TrustSong">
-            <button type="button" id="Trust" onclick="">Add to Cart</button>
+            <button type="button" id="Trust" onclick="addToCart('Trust')">Add to Cart</button>
         </div>
         <div>
             <!-- <button type="button" id="Destroy" onclick="<?php session_unset(); session_destroy(); ?>">Destroy</button>
