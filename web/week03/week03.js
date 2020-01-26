@@ -1,1 +1,13 @@
-<?php array_push($_SESSION['cart'],array('product'=>'Trust','quantity'=>1)); ?>
+function addToCart(song) {
+	$.ajax({
+        type: "GET",
+        url: "addSong.php" ,
+        data: { s: song },
+        success : function() {
+
+            // function below reloads current page
+            location.reload();
+
+        }
+    });
+}
