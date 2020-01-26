@@ -3,8 +3,9 @@ function addToCart(song) {
         type: "POST",
         url: "addSong.php" ,
         data: { "s": song },
-        success : function() {
-        	console.log(result);
+        success : function(textStatus, status) {
+        	console.log(textStatus);
+            console.log(status);
             console.log('Success Received');
             // function below reloads current page
             // location.reload();
