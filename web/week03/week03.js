@@ -1,6 +1,6 @@
 function addToCart(song) {
     $.ajax({
-        type: "GET",
+        type: "POST",
         url: "12Tribes.php" ,
         success : function(result, status) {
         	console.log(status);
