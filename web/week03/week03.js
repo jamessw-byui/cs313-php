@@ -5,7 +5,7 @@ function addToCart(song) {
         success : function(result, status) {
         	console.log(status);
             console.log('Success Received');
-            // function below reloads current page
+            //  function below reloads current page
             // location.reload();
 
         }
