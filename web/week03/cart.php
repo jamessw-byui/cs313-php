@@ -25,14 +25,9 @@
                 Test Engineer.
             </p>
         </div> <!-- end of bio --> 
-        <img src="IMG_2575.JPG" alt="Jim and Wife" width="100" height="100">
-        <div>
-            <p>
-                <?php
-                    echo "Today's date is: ";
-                    echo date("M d Y");
-                ?>
-            </p>
+        <?php
+        	print_r($_SESSION);
+    	?>
     </div> <!-- end of main -->
 </body>
 </html>
