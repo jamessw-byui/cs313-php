@@ -11,6 +11,7 @@ $dbUrl = getenv('DATABASE_URL');
 
 if (empty($dbUrl)) {
  // example localhost configuration URL with postgres username and a database called cs313db
+ // adding a comment
  $dbUrl = "";
 }
 
@@ -58,12 +59,12 @@ if (isset($_POST['categories'])) {
   $categoriesClause = rtrim($categoriesClause, ", ");
   $categoriesClause .=')';
 };
-$sql = 'SELECT g.gameId, g.gameName, g.minPlayers, g.maxPlayers, g.minDuration, g.minAge, g.summary FROM dimUserGameMapping ug Left Join factGame g on g.gameId = ug.gameId Left Join dimGameCategoryMapping gc on gc.gameId = g.gameId Where ug.userId =' . $_SESSION['UserId'] . ' ' . $playersClause . ' ' . $timeClause . ' ' . $minAgeClause . ' ' . $categoriesClause . ' Group by g.gameId;';
+$sql = 'SELECT g.gameId, g.gameName, g.minPlayers, g.maxPlayers, g.minDuration, g.minAge, g.summary FROM dimUserGameMapping ug Left Join factGame g on g.gameId = ug.gameId Left Join dimUserGameCategoryMapping gc on gc.gameId = g.gameId Where ug.userId =' . $_SESSION['UserId'] . ' ' . $playersClause . ' ' . $timeClause . ' ' . $minAgeClause . ' ' . $categoriesClause . ' Group by g.gameId;';
 /*$statement = $db->prepare(
     "SELECT g.gameId, g.gameName, g.minPlayers, g.maxPlayers, g.minDuration, g.minAge, g.summary
         FROM dimUserGameMapping ug
         Left Join factGame g on g.gameId = ug.gameId
-        Left Join dimGameCategoryMapping gc on gc.gameId = g.gameId
+        Left Join dimUserGameCategoryMapping gc on gc.gameId = g.gameId
       Where ug.userId = :userId
       :playersClause
       :timeClause
@@ -88,7 +89,7 @@ $gameResults = $statement->fetchAll(PDO::FETCH_ASSOC);
 $newStatement = $db->prepare(
     "SELECT c.categoryId, c.categoryName
         FROM factCategory c
-        Left Join dimGameCategoryMapping gc on gc.categoryId = c.categoryId
+        Left Join dimUserGameCategoryMapping gc on gc.categoryId = c.categoryId
         Left Join dimUserGameMapping ug on ug.gameId = gc.gameId
           And ug.userId = :userId 
       Where ug.userId is not null
