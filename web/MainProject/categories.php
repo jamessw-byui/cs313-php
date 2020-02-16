@@ -4,11 +4,15 @@ session_start();
 ?>
 
 <?php
+$edit="";
+if(isset($_POST['edit'])) {
+  $edit = $_POST['edit'];
+};
 $dbUrl = getenv('DATABASE_URL');
 
 if (empty($dbUrl)) {
  // example localhost configuration URL with postgres username and a database called cs313db
- $dbUrl = "";
+ $dbUrl = "postgres://rawwaxqaoumooe:13912bd2cb35c4281651af094768fd4aab65a7e536cf75d3852f71c12fa5165a@ec2-52-71-122-102.compute-1.amazonaws.com:5432/db79tlucjrllqr";
 }
 
 $dbopts = parse_url($dbUrl);
@@ -33,9 +37,13 @@ try {
 
 $newStatement = $db->prepare(
     "SELECT c.categoryId, c.categoryName
-        FROM factCategory c
+        FROM dimUserCategoryMapping uc
+        Left Join factCategory c on c.categoryId = uc.categoryId
+        	And uc.userId = :userId
+    Where uc.userId = :userId
       ;"
   );
+  $newStatement->bindParam(':userId',$_SESSION['UserId']);
   // execute the statement
   $newExecuteSuccess = $newStatement->execute();
 
@@ -49,6 +57,8 @@ $categoryResults = $newStatement->fetchAll(PDO::FETCH_ASSOC);
 <head>
   <link rel="stylesheet" type="text/css" href="gameDatabase.css">
   <title>Your Game Closet</title>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="categories.js"></script>
 </head>
 <body>
   <div id="header">
@@ -63,17 +73,32 @@ $categoryResults = $newStatement->fetchAll(PDO::FETCH_ASSOC);
         <span class="page">
             <a href="categories.php">Categories</a>
         </span>
+        <span class="page">
+            <a href="addGame.php">Add Game</a>
+        </span>
     </div> <!-- nav -->
   </div> <!-- end of header -->
   <div class="main">
-    <p>Here is a list of all the different categories:</p>
+    <form action="" method="POST" style="margin: 0; padding: 0;">
+    	<p>
+	    	Here is a list of all your different categories:
+	    	<input type="hidden" name="edit" value=1>
+	    	<button class="button" type="submit" style="display: inline;">Edit</button>
+	    </p>
+    </form>
     <div class="categories">
       <?php 
         foreach($categoryResults as $category) { 
-            echo '<p>' . $category['categoryname'] . '</p>';
+            echo '<p>' . $category['categoryname'] . ' ';
+            if($edit==1) {
+            	echo '<button class="delete" type="button" value="' . $category['categoryid'];
+              echo '" onclick="deleteUserCategory(this.value,' . $_SESSION['UserId'] . ')">Delete</button></p>';
+            }
         };
       ?>
-    </div>      
+    </div>
+    <input type="text" name="category" id="newCategory">
+    <button class="button" type="button" onclick="addUserCategory(newCategory,<?php echo $_SESSION['UserId'];?>)">Add</button>    
   </div> <!-- end of main -->
 </body>
 </html>

@@ -8,7 +8,7 @@ $dbUrl = getenv('DATABASE_URL');
 
 if (empty($dbUrl)) {
  // example localhost configuration URL with postgres username and a database called cs313db
- $dbUrl = "";
+ $dbUrl = "postgres://rawwaxqaoumooe:13912bd2cb35c4281651af094768fd4aab65a7e536cf75d3852f71c12fa5165a@ec2-52-71-122-102.compute-1.amazonaws.com:5432/db79tlucjrllqr";
 }
 
 $dbopts = parse_url($dbUrl);
@@ -33,12 +33,15 @@ try {
 
 if(isset($_GET['id'])) {
   $statement = $db->prepare(
-    "SELECT g.gameId, g.gameName, g.minPlayers, g.maxPlayers, g.minDuration, g.minAge, g.summary
+    "SELECT g.gameId, g.gameName, g.minPlayers, g.maxPlayers, g.minDuration, g.minAge, ug.summary
         FROM factGame g
+        Left Join dimUserGameMapping ug on g.gameId = ug.gameId
+        	And ug.userId = :userId
       Where g.gameId = :gameId
       ;"
   );
   $statement->bindParam(':gameId',$_GET['id']);
+  $statement->bindParam(':userId',$_SESSION['UserId']);
   // execute the statement
   $executeSuccess = $statement->execute();
 }
@@ -67,6 +70,9 @@ $gameResults = $statement->fetchAll(PDO::FETCH_ASSOC);
         </span>
         <span class="page">
             <a href="categories.php">Categories</a>
+        </span>
+        <span class="page">
+            <a href="addGame.php">Add Game</a>
         </span>
     </div> <!-- nav -->
   </div> <!-- end of header -->

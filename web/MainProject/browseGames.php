@@ -7,12 +7,16 @@ if (isset($_POST['user'])){
 ?>
 
 <?php
+$edit="";
+if(isset($_POST['edit'])) {
+  $edit = $_POST['edit'];
+};
 $dbUrl = getenv('DATABASE_URL');
 
 if (empty($dbUrl)) {
  // example localhost configuration URL with postgres username and a database called cs313db
  // adding a comment
- $dbUrl = "";
+ $dbUrl = "postgres://rawwaxqaoumooe:13912bd2cb35c4281651af094768fd4aab65a7e536cf75d3852f71c12fa5165a@ec2-52-71-122-102.compute-1.amazonaws.com:5432/db79tlucjrllqr";
 }
 
 $dbopts = parse_url($dbUrl);
@@ -59,9 +63,9 @@ if (isset($_POST['categories'])) {
   $categoriesClause = rtrim($categoriesClause, ", ");
   $categoriesClause .=')';
 };
-$sql = 'SELECT g.gameId, g.gameName, g.minPlayers, g.maxPlayers, g.minDuration, g.minAge, g.summary FROM dimUserGameMapping ug Left Join factGame g on g.gameId = ug.gameId Left Join dimUserGameCategoryMapping gc on gc.gameId = g.gameId Where ug.userId =' . $_SESSION['UserId'] . ' ' . $playersClause . ' ' . $timeClause . ' ' . $minAgeClause . ' ' . $categoriesClause . ' Group by g.gameId;';
+$sql = 'SELECT g.gameId, g.gameName, g.minPlayers, g.maxPlayers, g.minDuration, g.minAge, ug.summary FROM dimUserGameMapping ug Left Join factGame g on g.gameId = ug.gameId Left Join dimUserGameCategoryMapping gc on gc.gameId = g.gameId Where ug.userId =' . $_SESSION['UserId'] . ' ' . $playersClause . ' ' . $timeClause . ' ' . $minAgeClause . ' ' . $categoriesClause . ' Group by g.gameId, ug.summary;';
 /*$statement = $db->prepare(
-    "SELECT g.gameId, g.gameName, g.minPlayers, g.maxPlayers, g.minDuration, g.minAge, g.summary
+    "SELECT g.gameId, g.gameName, g.minPlayers, g.maxPlayers, g.minDuration, g.minAge, ug.summary
         FROM dimUserGameMapping ug
         Left Join factGame g on g.gameId = ug.gameId
         Left Join dimUserGameCategoryMapping gc on gc.gameId = g.gameId
@@ -89,10 +93,9 @@ $gameResults = $statement->fetchAll(PDO::FETCH_ASSOC);
 $newStatement = $db->prepare(
     "SELECT c.categoryId, c.categoryName
         FROM factCategory c
-        Left Join dimUserGameCategoryMapping gc on gc.categoryId = c.categoryId
-        Left Join dimUserGameMapping ug on ug.gameId = gc.gameId
-          And ug.userId = :userId 
-      Where ug.userId is not null
+        Left Join dimUserCategoryMapping uc on uc.categoryId = c.categoryId
+          And uc.userId = :userId
+      Where uc.userId is not null
       Group by c.categoryId
       ;"
   );
@@ -110,6 +113,8 @@ $categoryResults = $newStatement->fetchAll(PDO::FETCH_ASSOC);
 <head>
   <link rel="stylesheet" type="text/css" href="gameDatabase.css">
   <title>Your Game Closet</title>
+  <script type="text/javascript" src="//ajax.googleapis.com/ajax/libs/jquery/1.7.1/jquery.min.js"></script>
+  <script type="text/javascript" src="games.js"></script>
 </head>
 <body>
   <div id="header">
@@ -124,9 +129,19 @@ $categoryResults = $newStatement->fetchAll(PDO::FETCH_ASSOC);
         <span class="page">
             <a href="categories.php">Categories</a>
         </span>
+        <span class="page">
+            <a href="addGame.php">Add Game</a>
+        </span>
     </div> <!-- nav -->
   </div> <!-- end of header -->
   <div class="main">
+    <form action="" method="POST" style="margin: 0; padding: 0;">
+      <p>
+        Here is a list of all your games, or your filtered games:
+        <input type="hidden" name="edit" value=1>
+        <button class="button" type="submit" style="display: inline;">Edit</button>
+      </p>
+    </form>
     <form action="" method="POST">
         <p>Number of Players: <input type="number" name="players" min="1"></p>
         <p>Time Available: <input type="number" name="time" min="1"></p>
@@ -151,6 +166,10 @@ $categoryResults = $newStatement->fetchAll(PDO::FETCH_ASSOC);
             echo '<b>' . $game['gamename'] . '</b>';
             echo ' - ' . $game['summary'];
             echo '</a>';
+            if($edit==1) {
+              echo '<button class="delete" type="button" value="' . $game['gameid'];
+              echo '" onclick="deleteGame(this.value,' . $_SESSION['UserId'] . ')">Delete</button></p>';
+            }
             echo '</p>';
         };
       ?>
