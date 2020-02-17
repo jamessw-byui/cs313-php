@@ -16,15 +16,21 @@ CREATE TABLE factGame (
 	minPlayers 		INTEGER NOT NULL, -- Minimum number of players
 	maxPlayers 		INT NOT NULL, -- Maximum number of players
 	minDuration		INT NOT NULL, -- Average game duration in minutes
-	minAge			INT NOT NULL, -- Recommended minimum age of players
-	summary			VARCHAR(250) -- Optional field for brief reference of game 
+	minAge			INT NOT NULL -- Recommended minimum age of players
+);
+
+CREATE TABLE dimUserCategoryMapping (
+	userCategoryId 	SERIAL PRIMARY KEY,
+	userId 			INT NOT NULL REFERENCES factUser (userId),
+	categoryId		INT NOT NULL REFERENCES factCategory (categoryId)
 );
 
 CREATE TABLE dimUserGameMapping (
 	userGameId 		SERIAL PRIMARY KEY,
 	userId			INT NOT NULL REFERENCES factUser (userId),
 	gameId			INT NOT NULL REFERENCES factGame (gameId),
-	favorite		BOOLEAN
+	favorite		BOOLEAN DEFAULT FALSE,
+	summary			VARCHAR(250) -- Optional field for brief reference of game 
 );
 
 CREATE TABLE dimUserGameCategoryMapping (
@@ -57,6 +63,28 @@ INSERT INTO factGame (gameName, minPlayers, maxPlayers, minDuration, minAge) VAL
 INSERT INTO factGame (gameName, minPlayers, maxPlayers, minDuration, minAge) VALUES ('Pandemic', 2, 4, 30, 10);
 INSERT INTO factGame (gameName, minPlayers, maxPlayers, minDuration, minAge) VALUES ('Wizard', 3, 6, 30, 10);
 INSERT INTO factGame (gameName, minPlayers, maxPlayers, minDuration, minAge) VALUES ('Uno', 2, 10, 5, 7);
+
+INSERT INTO dimUserCategoryMapping (userId, categoryId) VALUES ((Select userId from factUser Where userName = 'Jim'), (Select categoryId from factCategory Where categoryName = 'Party'));
+INSERT INTO dimUserCategoryMapping (userId, categoryId) VALUES ((Select userId from factUser Where userName = 'Jim'), (Select categoryId from factCategory Where categoryName = 'Strategy'));
+INSERT INTO dimUserCategoryMapping (userId, categoryId) VALUES ((Select userId from factUser Where userName = 'Jim'), (Select categoryId from factCategory Where categoryName = 'Card'));
+INSERT INTO dimUserCategoryMapping (userId, categoryId) VALUES ((Select userId from factUser Where userName = 'Jim'), (Select categoryId from factCategory Where categoryName = 'Kid-Friendly'));
+INSERT INTO dimUserCategoryMapping (userId, categoryId) VALUES ((Select userId from factUser Where userName = 'Jim'), (Select categoryId from factCategory Where categoryName = 'Dice'));
+INSERT INTO dimUserCategoryMapping (userId, categoryId) VALUES ((Select userId from factUser Where userName = 'Jim'), (Select categoryId from factCategory Where categoryName = 'Easy to Learn'));
+INSERT INTO dimUserCategoryMapping (userId, categoryId) VALUES ((Select userId from factUser Where userName = 'Jim'), (Select categoryId from factCategory Where categoryName = 'Get to Know You'));
+INSERT INTO dimUserCategoryMapping (userId, categoryId) VALUES ((Select userId from factUser Where userName = 'Jim'), (Select categoryId from factCategory Where categoryName = 'Guys Night'));
+INSERT INTO dimUserCategoryMapping (userId, categoryId) VALUES ((Select userId from factUser Where userName = 'Jim'), (Select categoryId from factCategory Where categoryName = 'Cooperative'));
+INSERT INTO dimUserCategoryMapping (userId, categoryId) VALUES ((Select userId from factUser Where userName = 'Jim'), (Select categoryId from factCategory Where categoryName = 'Deck Building'));
+
+INSERT INTO dimUserCategoryMapping (userId, categoryId) VALUES ((Select userId from factUser Where userName = 'Steve'), (Select categoryId from factCategory Where categoryName = 'Party'));
+INSERT INTO dimUserCategoryMapping (userId, categoryId) VALUES ((Select userId from factUser Where userName = 'Steve'), (Select categoryId from factCategory Where categoryName = 'Strategy'));
+INSERT INTO dimUserCategoryMapping (userId, categoryId) VALUES ((Select userId from factUser Where userName = 'Steve'), (Select categoryId from factCategory Where categoryName = 'Card'));
+INSERT INTO dimUserCategoryMapping (userId, categoryId) VALUES ((Select userId from factUser Where userName = 'Steve'), (Select categoryId from factCategory Where categoryName = 'Kid-Friendly'));
+INSERT INTO dimUserCategoryMapping (userId, categoryId) VALUES ((Select userId from factUser Where userName = 'Steve'), (Select categoryId from factCategory Where categoryName = 'Dice'));
+INSERT INTO dimUserCategoryMapping (userId, categoryId) VALUES ((Select userId from factUser Where userName = 'Steve'), (Select categoryId from factCategory Where categoryName = 'Easy to Learn'));
+INSERT INTO dimUserCategoryMapping (userId, categoryId) VALUES ((Select userId from factUser Where userName = 'Steve'), (Select categoryId from factCategory Where categoryName = 'Get to Know You'));
+INSERT INTO dimUserCategoryMapping (userId, categoryId) VALUES ((Select userId from factUser Where userName = 'Steve'), (Select categoryId from factCategory Where categoryName = 'Guys Night'));
+INSERT INTO dimUserCategoryMapping (userId, categoryId) VALUES ((Select userId from factUser Where userName = 'Steve'), (Select categoryId from factCategory Where categoryName = 'Cooperative'));
+INSERT INTO dimUserCategoryMapping (userId, categoryId) VALUES ((Select userId from factUser Where userName = 'Steve'), (Select categoryId from factCategory Where categoryName = 'Deck Building'));
 
 INSERT INTO dimUserGameMapping (userId, gameId) VALUES ((Select userId from factUser Where userName = 'Jim'), (Select gameId from factGame Where gameName = 'Clue'));
 INSERT INTO dimUserGameMapping (userId, gameId) VALUES ((Select userId from factUser Where userName = 'Jim'), (Select gameId from factGame Where gameName = 'Monopoly'));
