@@ -64,18 +64,7 @@ $categoryResults = $newStatement->fetchAll(PDO::FETCH_ASSOC);
   <div id="header">
     <h1>Your Game Closet</h1>
     <div id="nav">
-        <span class="page">
-            <a href="landingPage.php">User</a>
-        </span>
-        <span class="page">
-            <a href="browseGames.php">Browse Games</a>
-        </span>
-        <span class="page">
-            <a href="categories.php">Categories</a>
-        </span>
-        <span class="page">
-            <a href="addGame.php">Add Game</a>
-        </span>
+        <?php include("navigation.php"); ?>
     </div> <!-- nav -->
   </div> <!-- end of header -->
   <div class="main">

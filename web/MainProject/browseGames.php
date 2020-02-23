@@ -1,8 +1,10 @@
 <?php
 // Start the session
 session_start();
-if (isset($_POST['user'])){
-    $_SESSION['UserId']=$_POST['user'];
+if (!isset($_SESSION['UserId'])){
+    $newURL = "login.php";
+    header('Location: ' . $newURL);
+    die();
 };
 ?>
 
@@ -11,100 +13,18 @@ $edit="";
 if(isset($_POST['edit'])) {
   $edit = $_POST['edit'];
 };
-$dbUrl = getenv('DATABASE_URL');
+require("dbConnect.php");
+require("sqlCalls.php");
+$db = get_db();
 
-if (empty($dbUrl)) {
- // example localhost configuration URL with postgres username and a database called cs313db
- // adding a comment
- $dbUrl = "";
-}
+$players = $_POST['players'];
+$time = $_POST['time'];
+$minAge = $_POST['minAge'];
+$categories = $_POST['categories'];
 
-$dbopts = parse_url($dbUrl);
+$gameResults = get_user_games($db, $_SESSION['UserId'], $players, $time, $minAge, $categories);
 
-$dbHost = $dbopts["host"];
-$dbPort = $dbopts["port"];
-$dbUser = $dbopts["user"];
-$dbPassword = $dbopts["pass"];
-$dbName = ltrim($dbopts["path"], '/');
-
-try {
-  $db = new PDO("pgsql:host=$dbHost;port=$dbPort;dbname=$dbName", $dbUser, $dbPassword);
-
-  // this line makes PDO give us an exception when there are problems,
-  // and can be very helpful in debugging! (But you would likely want
-  // to disable it for production environments.)
-  $db->setAttribute(PDO::ATTR_ERRMODE, PDO::ERRMODE_EXCEPTION);
-} catch (PDOException $ex) {
-  echo "<p>error: " . $ex->getMessage() . "</p>";
-  die();
-}
-
-$playersClause;
-$timeClause;
-$minAgeClause;
-$categoriesClause;
-
-if (isset($_POST['players']) && $_POST['players'] <> '') {
-  $playersClause='And g.minPlayers <= ' . $_POST['players'] . ' And g.maxPlayers >= ' . $_POST['players'];
-};
-
-if (isset($_POST['time']) && $_POST['time'] <> '') {
-  $timeClause='And g.minDuration <= ' . $_POST['time'];
-};
-
-if (isset($_POST['minAge']) && $_POST['minAge'] <> '') {
-  $minAgeClause='And g.minAge <= ' . $_POST['minAge'];
-};
-if (isset($_POST['categories'])) {
-  $categoriesClause ='And gc.categoryId in (';
-  foreach($_POST['categories'] as $category) {
-    $categoriesClause .= $category .', ';
-  }
-  $categoriesClause = rtrim($categoriesClause, ", ");
-  $categoriesClause .=')';
-};
-$sql = 'SELECT g.gameId, g.gameName, g.minPlayers, g.maxPlayers, g.minDuration, g.minAge, ug.summary FROM dimUserGameMapping ug Left Join factGame g on g.gameId = ug.gameId Left Join dimUserGameCategoryMapping gc on gc.gameId = g.gameId Where ug.userId =' . $_SESSION['UserId'] . ' ' . $playersClause . ' ' . $timeClause . ' ' . $minAgeClause . ' ' . $categoriesClause . ' Group by g.gameId, ug.summary;';
-/*$statement = $db->prepare(
-    "SELECT g.gameId, g.gameName, g.minPlayers, g.maxPlayers, g.minDuration, g.minAge, ug.summary
-        FROM dimUserGameMapping ug
-        Left Join factGame g on g.gameId = ug.gameId
-        Left Join dimUserGameCategoryMapping gc on gc.gameId = g.gameId
-      Where ug.userId = :userId
-      :playersClause
-      :timeClause
-      :minAgeClause
-      :categoriesClause
-      Group by g.gameId
-      ;"
-  );
-  $statement->bindParam(':userId',$_SESSION['UserId']);
-  $statement->bindParam(':playersClause',$playersClause);
-  $statement->bindParam(':timeClause',$timeClause);
-  $statement->bindParam(':minAgeClause',$minAgeClause);
-  $statement->bindParam(':categoriesClause',$categoriesClause);*/
-  $statement = $db->prepare($sql);
-
-  // execute the statement
-  $executeSuccess = $statement->execute();
-
-// convert to array
-$gameResults = $statement->fetchAll(PDO::FETCH_ASSOC);
-
-$newStatement = $db->prepare(
-    "SELECT c.categoryId, c.categoryName
-        FROM factCategory c
-        Left Join dimUserCategoryMapping uc on uc.categoryId = c.categoryId
-          And uc.userId = :userId
-      Where uc.userId is not null
-      Group by c.categoryId
-      ;"
-  );
-  $newStatement->bindParam(':userId',$_SESSION['UserId']);
-  // execute the statement
-  $newExecuteSuccess = $newStatement->execute();
-
-// convert to array
-$categoryResults = $newStatement->fetchAll(PDO::FETCH_ASSOC);
+$categoryResults = get_user_categories($db, $_SESSION['UserId']);
 
 ?>
 
@@ -120,18 +40,7 @@ $categoryResults = $newStatement->fetchAll(PDO::FETCH_ASSOC);
   <div id="header">
     <h1>Your Game Closet</h1>
     <div id="nav">
-        <span class="page">
-            <a href="landingPage.php">User</a>
-        </span>
-        <span class="page">
-            <a href="browseGames.php">Browse Games</a>
-        </span>
-        <span class="page">
-            <a href="categories.php">Categories</a>
-        </span>
-        <span class="page">
-            <a href="addGame.php">Add Game</a>
-        </span>
+        <?php include("navigation.php"); ?>
     </div> <!-- nav -->
   </div> <!-- end of header -->
   <div class="main">
