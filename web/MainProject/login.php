@@ -51,8 +51,7 @@
     </div> <!-- end of header -->
     <div class="main">
         <p>
-            You are not currently logged in as any particular user. Please choose a user from the 
-            dropdown below.
+            You are not currently logged in as any particular user. Please enter credentials below.
         </p>
         <?php 
             if ($correctCredentials === false) {
